@@ -1,5 +1,7 @@
 package com.KoreaIT.java.BAM;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -9,6 +11,8 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 
 		int articleNum = 0;
+		
+		List<Article> articles = new ArrayList<>();
 
 		while (true) {
 
@@ -30,7 +34,7 @@ public class Main {
 				String title = sc.nextLine();
 				System.out.printf("내용 : ");
 				String body = sc.nextLine();
-				
+
 				Article article = new Article(id, title, body);
 
 				System.out.printf("%d 번 글이 생성되었습니다.\n", id);
@@ -49,12 +53,12 @@ public class Main {
 	}
 }
 
-class Article{
+class Article {
 	int id;
 	String title;
 	String body;
-	
-	Article(int id, String title, String body){
+
+	Article(int id, String title, String body) {
 		this.id = id;
 		this.title = title;
 		this.body = body;
