@@ -53,19 +53,56 @@ public class Main {
 				System.out.printf("%d 번 글이 생성되었습니다.\n", id);
 
 			} else if (cmd.startsWith("article detail ")) {
-				
+
 				String[] cmdBits = cmd.split(" ");
 				int id = Integer.parseInt(cmdBits[2]);
-				
-				
-			} 
-			else if (cmd.startsWith("article delete 1")) {
-				if (articles.size() == 0) {
-					System.out.println("1번 게시물은 존재하지 않습니다");
-				} else {
-					articles.remove(0);
-					System.out.println("1번 게시물이 삭제되었습니다");
+
+				boolean foundArticle = false;
+				Article found = null;
+
+				for (int i = 0; i < articles.size(); i++) {
+					Article article = articles.get(i);
+
+					if (article.id == id) {
+						foundArticle = true;
+						found = article;
+						break;
+					}
 				}
+
+				if (foundArticle == false) {
+					System.out.printf("%d번 게시물은 존재하지 않습니다\n", id);
+					continue;
+				} else {
+					System.out.printf("번호 : %d\n", found.id);
+					System.out.printf("날짜 : 2022-12-12 12:12:12\n");
+					System.out.printf("제목 : %s\n", found.title);
+					System.out.printf("번호 : %s\n", found.body);
+				}
+
+			} else if (cmd.startsWith("article delete ")) {
+
+				String[] cmdBits = cmd.split(" ");
+				int id = Integer.parseInt(cmdBits[2]);
+
+				boolean foundArticle = false;
+
+				for (int i = 0; i < articles.size(); i++) {
+					Article article = articles.get(i);
+
+					if (article.id == id) {
+						foundArticle = true;
+						articles.remove(i);
+						System.out.printf("%d번 게시물이 삭제되었습니다\n", id);
+						break;
+					}
+				}
+
+				if (foundArticle == false) {
+					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
+					continue;
+				}
+
 			} else {
 				System.out.println("존재하지 않는 명령어 입니다.");
 			}
