@@ -23,7 +23,7 @@ public class Main {
 				System.out.println("명령어를 입력해주세요");
 				continue;
 			}
-			
+
 			if (cmd.equals("exit")) {
 				break;
 			}
@@ -33,11 +33,11 @@ public class Main {
 					System.out.println("게시물이 없습니다.");
 					continue;
 				}
-				System.out.println("번호   :   제목");
-				for (int i = articles.size()-1; i>=0; i--) {
+				System.out.println("번호   :    제목");
+				for (int i = articles.size() - 1; i >= 0; i--) {
 					Article article = articles.get(i);
-					
-					System.out.printf("%d   :   %s\n", article.id, article.title);
+
+					System.out.printf(" %d    :    %s\n", article.id, article.title);
 				}
 
 			} else if (cmd.equals("article write")) {
@@ -52,6 +52,20 @@ public class Main {
 
 				System.out.printf("%d 번 글이 생성되었습니다.\n", id);
 
+			} else if (cmd.startsWith("article detail ")) {
+				
+				String[] cmdBits = cmd.split(" ");
+				int id = Integer.parseInt(cmdBits[2]);
+				
+				
+			} 
+			else if (cmd.startsWith("article delete 1")) {
+				if (articles.size() == 0) {
+					System.out.println("1번 게시물은 존재하지 않습니다");
+				} else {
+					articles.remove(0);
+					System.out.println("1번 게시물이 삭제되었습니다");
+				}
 			} else {
 				System.out.println("존재하지 않는 명령어 입니다.");
 			}
