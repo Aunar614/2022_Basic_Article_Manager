@@ -57,27 +57,27 @@ public class Main {
 				String[] cmdBits = cmd.split(" ");
 				int id = Integer.parseInt(cmdBits[2]);
 
-				boolean foundArticle = false;
-				Article found = null;
+				boolean found = false;
+				Article foundArticle = null;
 
 				for (int i = 0; i < articles.size(); i++) {
 					Article article = articles.get(i);
 
 					if (article.id == id) {
-						foundArticle = true;
-						found = article;
+						found = true;
+						foundArticle = article;
 						break;
 					}
 				}
 
-				if (foundArticle == false) {
+				if (found == false) {
 					System.out.printf("%d번 게시물은 존재하지 않습니다\n", id);
 					continue;
 				} else {
-					System.out.printf("번호 : %d\n", found.id);
+					System.out.printf("번호 : %d\n", foundArticle.id);
 					System.out.printf("날짜 : 2022-12-12 12:12:12\n");
-					System.out.printf("제목 : %s\n", found.title);
-					System.out.printf("번호 : %s\n", found.body);
+					System.out.printf("제목 : %s\n", foundArticle.title);
+					System.out.printf("번호 : %s\n", foundArticle.body);
 				}
 
 			} else if (cmd.startsWith("article delete ")) {
@@ -85,20 +85,21 @@ public class Main {
 				String[] cmdBits = cmd.split(" ");
 				int id = Integer.parseInt(cmdBits[2]);
 
-				boolean foundArticle = false;
+				boolean found = false;
 
 				for (int i = 0; i < articles.size(); i++) {
 					Article article = articles.get(i);
 
 					if (article.id == id) {
-						foundArticle = true;
+						found = true;
 						articles.remove(i);
 						System.out.printf("%d번 게시물이 삭제되었습니다\n", id);
 						break;
 					}
 				}
+				
 
-				if (foundArticle == false) {
+				if (found == false) {
 					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
 					continue;
 				}
