@@ -5,15 +5,18 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.KoreaIT.java.BAM.dto.Article;
+import com.KoreaIT.java.BAM.dto.Member;
 import com.KoreaIT.java.BAM.util.Util;
 
 public class App {
-	private static List<Article> articles;
-
+	private List<Article> articles;
+	private List<Member> members;
+	
 	App() {
 
 		articles = new ArrayList<>();
-
+		members = new ArrayList<>();
+			
 	}
 
 	public void run() {
@@ -44,21 +47,21 @@ public class App {
 				}
 
 				String searchKeyword = cmd.substring("article list".length()).trim();
-				
+
 				System.out.printf("검색어 : %s\n", searchKeyword);
-				
+
 				List<Article> forPrintArticles = articles;
 
 				if (searchKeyword.length() > 0) {
 					forPrintArticles = new ArrayList<>();
 
 					for (Article article : articles) {
-						if(article.title.contains(searchKeyword)) {
+						if (article.title.contains(searchKeyword)) {
 							forPrintArticles.add(article);
 						}
 					}
-					
-					if(forPrintArticles.size() == 0) {
+
+					if (forPrintArticles.size() == 0) {
 						System.out.println("검색 결과가 없습니다");
 						continue;
 					}
@@ -71,6 +74,23 @@ public class App {
 					System.out.printf(" %d    :    %s     :  %s  :        %d\n", article.id, article.title,
 							article.regDate, article.hit);
 				}
+
+			} else if (cmd.equals("member join")) {
+				int id = members.size() + 1;
+				String regDate = Util.getNowdateStr();
+				System.out.printf("로그인 아이디 : ");
+				String loginId = sc.nextLine();
+				System.out.printf("로그인 비밀번호 : ");
+				String loginPw = sc.nextLine();
+				System.out.printf("로그인 비밀번호 확인: ");
+				String loginPwConfirm = sc.nextLine();
+				System.out.printf("이름 : ");
+				String name = sc.nextLine();
+
+				Member member = new Member(id, regDate, loginId, loginPw, name);
+				members.add(member);
+
+				System.out.printf("%d 번 회원님 환영합니다.\n", id);
 
 			} else if (cmd.equals("article write")) {
 				int id = articles.size() + 1;
