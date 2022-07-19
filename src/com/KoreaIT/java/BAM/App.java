@@ -37,14 +37,36 @@ public class App {
 				break;
 			}
 
-			if (cmd.equals("article list")) {
+			if (cmd.startsWith("article list")) {
 				if (articles.size() == 0) {
 					System.out.println("게시물이 없습니다.");
 					continue;
 				}
+
+				String searchKeyword = cmd.substring("article list".length()).trim();
+				
+				System.out.printf("검색어 : %s\n", searchKeyword);
+				
+				List<Article> forPrintArticles = articles;
+
+				if (searchKeyword.length() > 0) {
+					forPrintArticles = new ArrayList<>();
+
+					for (Article article : articles) {
+						if(article.title.contains(searchKeyword)) {
+							forPrintArticles.add(article);
+						}
+					}
+					
+					if(forPrintArticles.size() == 0) {
+						System.out.println("검색 결과가 없습니다");
+						continue;
+					}
+				}
+
 				System.out.println("번호   :    제목     :          날짜           :      조회");
-				for (int i = articles.size() - 1; i >= 0; i--) {
-					Article article = articles.get(i);
+				for (int i = forPrintArticles.size() - 1; i >= 0; i--) {
+					Article article = forPrintArticles.get(i);
 
 					System.out.printf(" %d    :    %s     :  %s  :        %d\n", article.id, article.title,
 							article.regDate, article.hit);
@@ -144,11 +166,11 @@ public class App {
 	private Article getArticleById(int id) {
 //		==v3==
 		int index = getArticleIndexById(id);
-		
+
 		if (index != -1) {
 			return articles.get(index);
 		}
-		
+
 //		==v1==
 //		for(int i = 0; i < articles.size(); i++) {
 //			Article article = articles.get(i);
@@ -157,7 +179,7 @@ public class App {
 //				return article;
 //			}
 //		}
-		
+
 //		==v2==
 //		for (Article article : articles) {
 //
