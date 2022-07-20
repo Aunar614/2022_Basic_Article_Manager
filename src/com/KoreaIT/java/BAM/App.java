@@ -11,12 +11,12 @@ import com.KoreaIT.java.BAM.util.Util;
 public class App {
 	private List<Article> articles;
 	private List<Member> members;
-	
+
 	App() {
 
 		articles = new ArrayList<>();
 		members = new ArrayList<>();
-			
+
 	}
 
 	public void run() {
@@ -78,12 +78,37 @@ public class App {
 			} else if (cmd.equals("member join")) {
 				int id = members.size() + 1;
 				String regDate = Util.getNowdateStr();
-				System.out.printf("로그인 아이디 : ");
-				String loginId = sc.nextLine();
-				System.out.printf("로그인 비밀번호 : ");
-				String loginPw = sc.nextLine();
-				System.out.printf("로그인 비밀번호 확인: ");
-				String loginPwConfirm = sc.nextLine();
+				String loginId = null;
+
+				while (true) {
+
+					System.out.printf("로그인 아이디 : ");
+					loginId = sc.nextLine();
+
+					if (isJoinableLoginId(loginId) == false) {
+						System.out.printf("%s은(는) 이미 사용중인 아이디입니다\n", loginId);
+						continue;
+					}
+					break;
+				}
+
+				String loginPw = null;
+				String loginPwConfirm = null;
+
+				while (true) {
+
+					System.out.printf("로그인 비밀번호 : ");
+					loginPw = sc.nextLine();
+					System.out.printf("로그인 비밀번호 확인: ");
+					loginPwConfirm = sc.nextLine();
+
+					if (loginPw.equals(loginPwConfirm) == false) {
+						System.out.println("비밀번호를 다시 입력해주세요");
+						continue;
+					}
+					break;
+				}
+
 				System.out.printf("이름 : ");
 				String name = sc.nextLine();
 
@@ -169,6 +194,28 @@ public class App {
 
 		System.out.println("==프로그램 끝==");
 		sc.close();
+	}
+
+	private boolean isJoinableLoginId(String loginId) {
+		int index = getMemberIndexByLoginId(loginId);
+
+		if (index == -1) {
+			return true;
+		}
+
+		return false;
+	}
+
+	private int getMemberIndexByLoginId(String loginId) {
+		int i = 0;
+		for (Member member : members) {
+			if(member.loginId.equals(loginId)) {
+				return i;
+			}
+			i++;
+		}
+
+		return -1;
 	}
 
 	private int getArticleIndexById(int id) {
