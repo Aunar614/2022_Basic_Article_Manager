@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import com.KoreaIT.java.BAM.dto.Article;
 import com.KoreaIT.java.BAM.dto.Member;
 import com.KoreaIT.java.BAM.util.Util;
 
 public class MemberController extends Controller {
+	
 	private Scanner sc;
 	private List<Member> members;
 	private String cmd;
@@ -32,44 +32,67 @@ public class MemberController extends Controller {
 		case "login":
 			doLogin();
 			break;
+		case "logoout":
+			doLogout();
+			break;
+		case "profile":
+			showProfile();
+			break;
 		default:
 			System.out.println("존재하지 않는 명령어입니다");
 			break;
 		}
-
+	}
+	
+	
+	private void doLogout() {
+		
+		if (isLogined() == false) {
+			System.out.println("로그인 상태가 아닙니다");
+			return;
+		}
+		
+		loginedMember = null;
+		System.out.println("로그아웃 되었습니다");
 	}
 
 	private void doLogin() {
+		
+		if (isLogined()) {
+			System.out.println("이미 로그인 상태입니다");
+			return;
+		}
+		
 		System.out.printf("로그인 아이디 : ");
 		String loginId = sc.nextLine();
 		System.out.printf("로그인 비밀번호 : ");
 		String loginPw = sc.nextLine();
-		
+
 		Member member = getMemberByLoginId(loginId);
-		
+
 		if (member == null) {
 			System.out.println("일치하는 회원이 없습니다");
 			return;
 		}
-		
+
 		if (member.loginPw.equals(loginPw) == false) {
 			System.out.println("비밀번호를 다시 입력해주세요");
 			return;
 		}
-		
+
 		loginedMember = member;
 		System.out.printf("로그인 성공! %s님 환영합니다\n", loginedMember.name);
-		
+
 	}
 
-	private Member getMemberByLoginId(String loginId) {
-		int index = getMemberIndexByLoginId(loginId);
-		
-		if (index == -1) {
-			return null;
+	private void showProfile() {
+		if (loginedMember == null) {
+			System.out.println("로그아웃 상태입니다");
+			return;
+		} else {
+			System.out.printf("로그인 아이디 : %s\n", loginedMember.loginId);
+			System.out.printf("이름 : %s\n", loginedMember.name);
 		}
-		
-		return members.get(index);
 	}
 
 	private void doJoin() {
@@ -89,10 +112,10 @@ public class MemberController extends Controller {
 			}
 			break;
 		}
-
+		
 		String loginPw = null;
 		String loginPwConfirm = null;
-
+		
 		while (true) {
 
 			System.out.printf("로그인 비밀번호 : ");
@@ -116,7 +139,21 @@ public class MemberController extends Controller {
 		System.out.printf("%d 번 회원님 환영합니다.\n", id);
 
 	}
+	
+	private Member getMemberByLoginId(String loginId) {
+		int index = getMemberIndexByLoginId(loginId);
 
+		if (index == -1) {
+			return null;
+		}
+
+		return members.get(index);
+	}
+	
+	private boolean isLogined() {
+		return loginedMember != null;
+	}
+	
 	private boolean isJoinableLoginId(String loginId) {
 		int index = getMemberIndexByLoginId(loginId);
 
@@ -127,6 +164,7 @@ public class MemberController extends Controller {
 		return false;
 	}
 
+	
 	private int getMemberIndexByLoginId(String loginId) {
 		int i = 0;
 		for (Member member : members) {
@@ -145,6 +183,5 @@ public class MemberController extends Controller {
 		members.add(new Member(1, Util.getNowdateStr(), "test1", "test1", "홍길동"));
 		members.add(new Member(2, Util.getNowdateStr(), "test2", "test2", "김철수"));
 		members.add(new Member(3, Util.getNowdateStr(), "test3", "test3", "신짱구"));
-
 	}
 }
