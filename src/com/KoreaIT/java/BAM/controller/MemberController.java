@@ -13,7 +13,6 @@ public class MemberController extends Controller {
 	private List<Member> members;
 	private String cmd;
 	private String actionMethodName;
-	private Member loginedMember;
 
 	public MemberController(Scanner sc) {
 		this.sc = sc;
@@ -32,7 +31,7 @@ public class MemberController extends Controller {
 		case "login":
 			doLogin();
 			break;
-		case "logoout":
+		case "logout":
 			doLogout();
 			break;
 		case "profile":
@@ -148,10 +147,6 @@ public class MemberController extends Controller {
 		}
 
 		return members.get(index);
-	}
-	
-	private boolean isLogined() {
-		return loginedMember != null;
 	}
 	
 	private boolean isJoinableLoginId(String loginId) {
