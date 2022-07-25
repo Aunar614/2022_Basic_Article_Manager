@@ -29,7 +29,7 @@ public class ArticleController extends Controller {
 			showList();
 			break;
 		case "write":
-			if(isLogined() == false) {
+			if (isLogined() == false) {
 				System.out.println("로그인 후 이용해주세요");
 				break;
 			}
@@ -96,8 +96,8 @@ public class ArticleController extends Controller {
 		for (int i = forPrintArticles.size() - 1; i >= 0; i--) {
 			Article article = forPrintArticles.get(i);
 
-			System.out.printf(" %7d :  %6s    : %5s  :   %7s   :    %5d\n", article.id, article.title, article.regDate, article.memberId,
-					article.hit);
+			System.out.printf(" %7d :  %6s    : %5s  :   %7s   :    %5d\n", article.id, article.title, article.regDate,
+					article.memberId, article.hit);
 		}
 	}
 
@@ -141,9 +141,15 @@ public class ArticleController extends Controller {
 		Article foundArticle = getArticleById(id);
 
 		if (foundArticle == null) {
-			System.out.printf("%d번 게시물은 존재하지 않습니다\n", id);
+			System.out.printf("%d번 게시물은 없습니다\n", id);
 			return;
 		}
+
+		if (foundArticle.memberId != loginedMember.id) {
+			System.out.printf("권한이 없습니다\n");
+			return;
+		}
+
 		System.out.printf("제목 : ");
 		String title = sc.nextLine();
 		System.out.printf("내용 : ");
@@ -165,14 +171,19 @@ public class ArticleController extends Controller {
 
 		int id = Integer.parseInt(cmdBits[2]);
 
-		int foundIndex = getArticleIndexById(id);
+		Article foundArticle = getArticleById(id);
 
-		if (foundIndex == -1) {
+		if (foundArticle == null) {
 			System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
 			return;
 		}
 
-		articles.remove(foundIndex);
+		if (foundArticle.memberId != loginedMember.id) {
+			System.out.printf("권한이 없습니다\n");
+			return;
+		}
+
+		articles.remove(foundArticle);
 		System.out.printf("%d번 게시물을 삭제했습니다\n", id);
 	}
 
@@ -220,8 +231,8 @@ public class ArticleController extends Controller {
 		System.out.println("테스트를 위한 게시물 데이터를 생성합니다.");
 
 		articles.add(new Article(1, Util.getNowdateStr(), 1, "제목1", "내용1", 11));
-		articles.add(new Article(2, Util.getNowdateStr(), 2,"제목2", "내용2", 22));
-		articles.add(new Article(3, Util.getNowdateStr(), 3,"제목3", "내용3", 33));
+		articles.add(new Article(2, Util.getNowdateStr(), 2, "제목2", "내용2", 22));
+		articles.add(new Article(3, Util.getNowdateStr(), 3, "제목3", "내용3", 33));
 
 	}
 }

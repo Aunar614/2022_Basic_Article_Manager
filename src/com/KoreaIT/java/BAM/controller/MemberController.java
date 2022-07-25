@@ -8,7 +8,7 @@ import com.KoreaIT.java.BAM.dto.Member;
 import com.KoreaIT.java.BAM.util.Util;
 
 public class MemberController extends Controller {
-	
+
 	private Scanner sc;
 	private List<Member> members;
 	private String cmd;
@@ -42,26 +42,25 @@ public class MemberController extends Controller {
 			break;
 		}
 	}
-	
-	
+
 	private void doLogout() {
-		
+
 		if (isLogined() == false) {
 			System.out.println("로그인 상태가 아닙니다");
 			return;
 		}
-		
+
 		loginedMember = null;
 		System.out.println("로그아웃 되었습니다");
 	}
 
 	private void doLogin() {
-		
+
 		if (isLogined()) {
 			System.out.println("이미 로그인 상태입니다");
 			return;
 		}
-		
+
 		System.out.printf("로그인 아이디 : ");
 		String loginId = sc.nextLine();
 		System.out.printf("로그인 비밀번호 : ");
@@ -111,10 +110,10 @@ public class MemberController extends Controller {
 			}
 			break;
 		}
-		
+
 		String loginPw = null;
 		String loginPwConfirm = null;
-		
+
 		while (true) {
 
 			System.out.printf("로그인 비밀번호 : ");
@@ -138,7 +137,7 @@ public class MemberController extends Controller {
 		System.out.printf("%d 번 회원님 환영합니다.\n", id);
 
 	}
-	
+
 	private Member getMemberByLoginId(String loginId) {
 		int index = getMemberIndexByLoginId(loginId);
 
@@ -148,7 +147,7 @@ public class MemberController extends Controller {
 
 		return members.get(index);
 	}
-	
+
 	private boolean isJoinableLoginId(String loginId) {
 		int index = getMemberIndexByLoginId(loginId);
 
@@ -159,7 +158,6 @@ public class MemberController extends Controller {
 		return false;
 	}
 
-	
 	private int getMemberIndexByLoginId(String loginId) {
 		int i = 0;
 		for (Member member : members) {
@@ -171,7 +169,7 @@ public class MemberController extends Controller {
 
 		return -1;
 	}
-	
+
 	public void makeTestData() {
 		System.out.println("테스트를 위한 회원 데이터를 생성합니다.");
 
