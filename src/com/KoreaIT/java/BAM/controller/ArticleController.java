@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.KoreaIT.java.BAM.container.Container;
 import com.KoreaIT.java.BAM.dto.Article;
+import com.KoreaIT.java.BAM.dto.Member;
 import com.KoreaIT.java.BAM.util.Util;
 
 public class ArticleController extends Controller {
@@ -17,7 +19,7 @@ public class ArticleController extends Controller {
 	public ArticleController(Scanner sc) {
 		this.sc = sc;
 
-		articles = new ArrayList<>();
+		articles = Container.articleDao.articles;
 	}
 
 	public void doAction(String cmd, String actionMethodName) {
@@ -91,9 +93,20 @@ public class ArticleController extends Controller {
 		System.out.printf("번호   :    제목     :      %7s      :     작성자     :      조회\n", "날짜");
 		for (int i = forPrintArticles.size() - 1; i >= 0; i--) {
 			Article article = forPrintArticles.get(i);
+			
+			String writerName = null;
+			
+			List<Member> members = Container.memberDao.members;
+			
+			for(Member member : members) {
+				if(article.memberId == member.id) {
+					writerName = member.name;
+					break;
+				}
+			}
 
-			System.out.printf(" %7d :  %6s    : %5s  :   %7s   :    %5d\n", article.id, article.title, article.regDate,
-					article.memberId, article.hit);
+			System.out.printf(" %7d :  %6s    : %5s  :%7s   :    %5d\n", article.id, article.title, article.regDate,
+					writerName, article.hit);
 		}
 	}
 
