@@ -55,7 +55,7 @@ public class MemberController extends Controller {
 	}
 
 	private void doLogin() {
-		
+
 		Member member = null;
 		String loginPw = null;
 		while (true) {
@@ -67,7 +67,7 @@ public class MemberController extends Controller {
 				System.out.println("로그인 아이디를 입력해주세요");
 				continue;
 			}
-			
+
 			while (true) {
 
 				System.out.printf("로그인 비밀번호 : ");
