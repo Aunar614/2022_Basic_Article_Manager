@@ -11,7 +11,7 @@ public class Dao {
 		return lastId;
 	}
 	
-	public int getNewId() {
+	public int setNewId() {
 		return lastId + 1;
 	}
 	

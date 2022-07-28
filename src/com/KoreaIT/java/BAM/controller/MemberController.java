@@ -108,7 +108,7 @@ public class MemberController extends Controller {
 
 	private void doJoin() {
 
-		int id = Container.memberDao.getNewId();
+		int id = Container.memberDao.setNewId();
 		String regDate = Util.getNowdateStr();
 		String loginId = null;
 
@@ -187,10 +187,10 @@ public class MemberController extends Controller {
 		System.out.println("테스트를 위한 회원 데이터를 생성합니다.");
 
 		Container.memberDao
-				.add(new Member(Container.memberDao.getNewId(), Util.getNowdateStr(), "test1", "test1", "홍길동"));
+				.add(new Member(Container.memberDao.setNewId(), Util.getNowdateStr(), "test1", "test1", "홍길동"));
 		Container.memberDao
-				.add(new Member(Container.memberDao.getNewId(), Util.getNowdateStr(), "test2", "test2", "김철수"));
+				.add(new Member(Container.memberDao.setNewId(), Util.getNowdateStr(), "test2", "test2", "김철수"));
 		Container.memberDao
-				.add(new Member(Container.memberDao.getNewId(), Util.getNowdateStr(), "test3", "test3", "신짱구"));
+				.add(new Member(Container.memberDao.setNewId(), Util.getNowdateStr(), "test3", "test3", "신짱구"));
 	}
 }
