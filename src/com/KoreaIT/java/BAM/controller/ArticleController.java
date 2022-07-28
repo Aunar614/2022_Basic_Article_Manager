@@ -7,6 +7,7 @@ import com.KoreaIT.java.BAM.container.Container;
 import com.KoreaIT.java.BAM.dto.Article;
 import com.KoreaIT.java.BAM.dto.Member;
 import com.KoreaIT.java.BAM.service.ArticleService;
+import com.KoreaIT.java.BAM.service.MemberService;
 import com.KoreaIT.java.BAM.util.Util;
 
 public class ArticleController extends Controller {
@@ -16,11 +17,13 @@ public class ArticleController extends Controller {
 	private String cmd;
 	private String actionMethodName;
 	private ArticleService articleService;
+	private MemberService memberService;
 
 	public ArticleController(Scanner sc) {
 		this.sc = sc;
 
 		articleService = Container.articleService;
+		memberService = Container.memberService;
 
 	}
 
@@ -82,7 +85,7 @@ public class ArticleController extends Controller {
 
 			String writerName = null;
 
-			List<Member> members = Container.memberDao.members;
+			List<Member> members = memberService.getMembers();
 
 			for (Member member : members) {
 				if (article.memberId == member.id) {
@@ -115,7 +118,7 @@ public class ArticleController extends Controller {
 
 		String writerName = null;
 
-		List<Member> members = Container.memberDao.members;
+		List<Member> members = memberService.getMembers();
 
 		for (Member member : members) {
 			if (foundArticle.memberId == member.id) {

@@ -5,6 +5,8 @@ import java.util.Scanner;
 
 import com.KoreaIT.java.BAM.container.Container;
 import com.KoreaIT.java.BAM.dto.Member;
+import com.KoreaIT.java.BAM.service.ArticleService;
+import com.KoreaIT.java.BAM.service.MemberService;
 import com.KoreaIT.java.BAM.util.Util;
 
 public class MemberController extends Controller {
@@ -13,11 +15,15 @@ public class MemberController extends Controller {
 	private List<Member> members;
 	private String cmd;
 	private String actionMethodName;
+	private ArticleService articleService;
+	private MemberService memberService;
 
 	public MemberController(Scanner sc) {
 		this.sc = sc;
+		
+		articleService = Container.articleService;
+		memberService = Container.memberService;
 
-		members = Container.memberDao.members;
 	}
 
 	public void doAction(String cmd, String actionMethodName) {
@@ -80,7 +86,7 @@ public class MemberController extends Controller {
 				break;
 			}
 
-			member = getMemberByLoginId(loginId);
+			member = memberService.getMemberByLoginId(loginId);
 
 			if (member == null) {
 				System.out.println("일치하는 회원이 없습니다");
@@ -108,7 +114,7 @@ public class MemberController extends Controller {
 
 	private void doJoin() {
 
-		int id = Container.memberDao.setNewId();
+		int id = memberService.setNewId();
 		String regDate = Util.getNowdateStr();
 		String loginId = null;
 
@@ -117,7 +123,7 @@ public class MemberController extends Controller {
 			System.out.printf("로그인 아이디 : ");
 			loginId = sc.nextLine();
 
-			if (isJoinableLoginId(loginId) == false) {
+			if (memberService.isJoinableLoginId(loginId) == false) {
 				System.out.printf("%s은(는) 이미 사용중인 아이디입니다\n", loginId);
 				continue;
 			}
@@ -145,52 +151,20 @@ public class MemberController extends Controller {
 		String name = sc.nextLine();
 
 		Member member = new Member(id, regDate, loginId, loginPw, name);
-		Container.memberDao.add(member);
+		memberService.add(member);
 
 		System.out.printf("%d 번 회원님 환영합니다.\n", id);
 
 	}
 
-	private Member getMemberByLoginId(String loginId) {
-		int index = getMemberIndexByLoginId(loginId);
-
-		if (index == -1) {
-			return null;
-		}
-
-		return members.get(index);
-	}
-
-	private boolean isJoinableLoginId(String loginId) {
-		int index = getMemberIndexByLoginId(loginId);
-
-		if (index == -1) {
-			return true;
-		}
-
-		return false;
-	}
-
-	private int getMemberIndexByLoginId(String loginId) {
-		int i = 0;
-		for (Member member : members) {
-			if (member.loginId.equals(loginId)) {
-				return i;
-			}
-			i++;
-		}
-
-		return -1;
-	}
-
 	public void makeTestData() {
 		System.out.println("테스트를 위한 회원 데이터를 생성합니다.");
 
-		Container.memberDao
-				.add(new Member(Container.memberDao.setNewId(), Util.getNowdateStr(), "test1", "test1", "홍길동"));
-		Container.memberDao
-				.add(new Member(Container.memberDao.setNewId(), Util.getNowdateStr(), "test2", "test2", "김철수"));
-		Container.memberDao
-				.add(new Member(Container.memberDao.setNewId(), Util.getNowdateStr(), "test3", "test3", "신짱구"));
+		memberService
+				.add(new Member(memberService.setNewId(), Util.getNowdateStr(), "test1", "test1", "홍길동"));
+		memberService
+				.add(new Member(memberService.setNewId(), Util.getNowdateStr(), "test2", "test2", "김철수"));
+		memberService
+				.add(new Member(memberService.setNewId(), Util.getNowdateStr(), "test3", "test3", "신짱구"));
 	}
 }
