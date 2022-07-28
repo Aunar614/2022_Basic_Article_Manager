@@ -196,16 +196,12 @@ public class ArticleController extends Controller {
 		System.out.printf("%d번 게시물을 삭제했습니다\n", id);
 	}
 
-
 	public void makeTestData() {
 		System.out.println("테스트를 위한 게시물 데이터를 생성합니다.");
 
-		articleService
-				.add(new Article(articleService.setNewId(), Util.getNowdateStr(), 1, "제목1", "내용1", 11));
-		articleService
-				.add(new Article(articleService.setNewId(), Util.getNowdateStr(), 2, "제목2", "내용2", 22));
-		articleService
-				.add(new Article(articleService.setNewId(), Util.getNowdateStr(), 3, "제목3", "내용3", 33));
+		articleService.add(new Article(articleService.setNewId(), Util.getNowdateStr(), 1, "제목1", "내용1", 11));
+		articleService.add(new Article(articleService.setNewId(), Util.getNowdateStr(), 2, "제목2", "내용2", 22));
+		articleService.add(new Article(articleService.setNewId(), Util.getNowdateStr(), 3, "제목3", "내용3", 33));
 
 	}
 }
